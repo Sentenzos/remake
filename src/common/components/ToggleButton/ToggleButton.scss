@@ -1,0 +1,59 @@
+.toggle-button {
+  height: 1.1rem;
+  width: 3rem;
+  border-radius: 2rem;
+  background-color: white;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggle-button__bead {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+  background-color: #7e08af;
+  position: absolute;
+  left: 0.1rem;
+}
+
+.toggle-button__mode-name {
+  padding: 0 0.3rem 0.1rem 0.3rem;
+  font-family: "Kanit Regular", sans-serif;
+  font-size: 0.9rem;
+  width: 100%;
+  color: #7e08af;
+}
+
+.toggle-button__mode-name.inactive {
+  text-align: right;
+}
+
+
+.toggle-button__mode-name.active {
+  text-align: left;
+}
+
+
+
+//react-css-transition styles
+.toggle-button__bead-enter-active {
+  left: 1.9rem;
+  transition: left 200ms;
+}
+
+.toggle-button__bead-enter-done {
+  left: 1.9rem;
+}
+
+.toggle-button__bead-exit {
+  left: 1.9rem;
+}
+
+.toggle-button__bead-exit-active {
+  transition: left 200ms;
+  left: 0.1rem;
+}
+
+

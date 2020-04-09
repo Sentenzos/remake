@@ -1,0 +1,214 @@
+@import "../../common/css/sundries";
+
+.table-page__content {
+  max-width: 1100px;
+  margin: 3rem auto 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: left;
+}
+
+.words-list__head {
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-family: "Viga Regular", sans-serif;
+}
+
+.words-list__head .words-list__left-column {
+  border: none;
+  height: 4rem;
+}
+
+.words-list {
+  border-collapse: collapse;
+}
+
+.words-list__tr {
+  height: 2rem;
+}
+
+.words-list__left-column {
+  padding-right: 1rem;
+  border-right: 1px solid #ffffff;
+  text-align: right;
+  width: 40%;
+}
+
+.words-list__right-column {
+  padding-left: 1rem;
+  text-align: left;
+}
+
+.words-list__body {
+  color: #ffffff;
+  font-family: "Roboto Condensed Regular", sans-serif;
+  font-size: 0.9rem;
+}
+
+.list-control {
+  display: grid;
+  justify-content: end;
+  align-content: start;
+}
+
+.add-word_wrapper {
+  margin-top: 2rem;
+}
+
+.add-word {
+  display: grid;
+  position: relative;
+  grid-auto-flow: row;
+  width: 12rem;
+  box-sizing: border-box;
+  border-bottom: 1px solid #ffffff;
+  //border-left: 1px solid #7e08af;
+}
+
+.add-eng-word__wrapper {
+  padding: 0.5rem 0.5rem 0.3rem 0.5rem;
+}
+
+.add-rus-word__wrapper {
+  padding: 0 0.5rem 0.5rem 0.5rem;
+}
+
+.add-eng-word, .add-rus-word, .add-base__input {
+  outline: none;
+  box-sizing: border-box;
+  height: 1.5rem;
+  width: 11rem;
+  border-radius: 0.25rem;
+  border: 1px solid transparent;
+  padding-left: 0.3rem;
+  font-family: "Kanit Regular", sans-serif;
+  font-size: 0.9rem;
+}
+
+.add-eng-word::placeholder,
+.add-rus-word::placeholder,
+.add-base__input::placeholder {
+  color: #7e08af;
+}
+
+.add-word__btns {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+}
+
+.add-word__add-wrapper,
+.add-word__cancel-btn,
+.add-base__btn-wrapper {
+  font-family: "Oswald Regular", sans-serif;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-left: 0.5rem;
+}
+
+.add-word__cancel-btn {
+  margin-left: 5.2rem;
+}
+
+.add-word__add-wrapper:hover,
+.add-word__cancel-btn:hover,
+.add-base__btn-wrapper:hover {
+  color: #7e08af;
+}
+
+.add-word__add-btn, .add-base__btn {
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.words-bases__wrapper {
+  display: grid;
+  position: relative;
+  grid-auto-flow: row;
+  justify-items: center;
+  margin-top: 8rem;
+  width: 12rem;
+}
+
+.words-bases {
+  display: grid;
+  grid-auto-flow: row;
+  justify-items: center;
+  margin-top: 0.2rem;
+}
+
+.words-bases__base {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  height: 1.2rem;
+  width: 8rem;
+  background-color: #ffffff;
+  margin-top: 0.3rem;
+  border-radius: 0.25rem;
+  color: #7e08af;
+  font-family: "Kanit Regular", sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.words-bases__base:hover {
+  background-color: #f5f5f5;
+}
+
+.words-bases__base.selected {
+  background-color: #7e08af;
+  color: #ffffff;
+}
+
+.words-bases__btn {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  margin-top: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: #ffffff;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  line-height: 145%;
+  font-weight: bold;
+  color: #7e08af;
+  cursor: pointer;
+}
+
+.words-bases__title {
+  color: #ffffff;
+  font-family: "Viga Regular", sans-serif;
+}
+
+.add-base__wrapper {
+  margin-top: 1rem;
+}
+
+.add-base__input {
+  outline: none;
+  box-sizing: border-box;
+  height: 1.5rem;
+  width: 11rem;
+  border-radius: 0.25rem;
+  border: 1px solid transparent;
+  padding-left: 0.3rem;
+  font-family: "Kanit Regular", sans-serif;
+  font-size: 0.9rem;
+}
+
+.add-base {
+  display: grid;
+  justify-items: center;
+}
+
+.add-base__btn-wrapper {
+  margin: 0;
+  padding-top: 0.3rem;
+}
+

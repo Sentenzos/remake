@@ -1,0 +1,95 @@
+.cards-wrapper {
+  height: 22rem;
+  width: 40rem;
+  margin: 12rem auto 0 auto;
+  border-radius: 50%;
+  box-shadow: 17px 5px 0 -7px #7e08af;
+  position: relative;
+}
+
+.cards {
+  display: grid;
+  height: 90%;
+  grid-template-rows: 100fr 1fr 100fr;
+  justify-items: center;
+}
+
+.card-upper, .card-bottom {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  font-family: "Oswald Regular", sans-serif;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.card-delimiter {
+  width: 60%;
+  border-bottom: 1px solid #ffffff;
+  box-shadow: 0 0 0.625rem rgb(255, 255, 255);
+}
+
+.cards-control {
+  position: absolute;
+  right: -1rem;
+  top: 15rem;
+  display: grid;
+  grid-auto-flow: row;
+}
+
+.control-btn {
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.control-btn__wrapper {
+  position: absolute;
+  font-family: "Oswald Regular", sans-serif;
+  font-size: 1.1rem;
+  color: #ffffff;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.control-btn__wrapper:hover .control-btn__name {
+  color: #7e08af;
+}
+
+.control-btn__wrapper.next {
+  left: -0.5rem;
+}
+
+.control-btn__wrapper.learned {
+  top: 2.4rem;
+  left: -3rem;
+}
+
+.control-btn__wrapper.repeat {
+  top: 4.8rem;
+  left: -6.5rem;
+}
+
+.control-btn__lamp {
+  height: 0.8rem;
+  width: 0.8rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.control-btn__lang-toggle {
+  position: absolute;
+  top: 7.4rem;
+  left: -14rem;
+}
+
+.control-select {
+  position: absolute;
+  top: 9rem;
+  right: 34rem;
+}

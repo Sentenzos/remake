@@ -1,0 +1,66 @@
+@import "../../common/css/sundries";
+
+.header {
+  height: 3.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.226);
+  box-sizing: border-box;
+}
+
+.header-menu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+  padding: 0 1rem;
+  margin: 0 auto;
+  max-width: 78rem;
+}
+
+.header-menu__left, .header-menu__right {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: left;
+}
+
+.header-menu__right {
+  justify-content: right;
+}
+
+.header-menu__item {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  width: 6.25rem;
+  height: calc(100% - 2px);
+  color: #ffffff;
+  text-decoration: none;
+  font-family: "Kanit Regular", sans-serif;
+  font-size: 0.9rem;
+}
+
+.header-menu__item:hover {
+  border-bottom: 2px solid #ffffff;
+}
+
+.header-menu__feature-container {
+  display: grid;
+  grid-auto-flow: column;
+  justify-items: center;
+  align-items: center;
+}
+
+.header-menu__feature {
+  font-family: "Viga Regular", sans-serif;
+  font-size: 1.2rem;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.header-menu__feature:hover {
+  color: rgb(117, 37, 192);
+}
+
+.header-menu__delimiter {
+  height: 80%;
+  border-right: 2px solid white;
+  margin-left: 2rem;
+}

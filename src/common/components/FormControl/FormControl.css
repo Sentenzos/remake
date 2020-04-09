@@ -1,0 +1,21 @@
+.login-form__input-body {
+   margin-top: 0.4rem;
+   position: relative;
+ }
+
+.login-form__input-body:first-child {
+  margin-top: 0
+}
+
+.form__input-body--error input {
+  border: solid 1px rgb(233, 97, 97);
+}
+
+.form__input-error {
+  position: absolute;
+  top: 0.2rem;
+  left: 12.7rem;
+  width: 15rem;
+  font-size: 0.9rem;
+  color: rgb(233, 97, 97);
+}
