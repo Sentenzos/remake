@@ -1,6 +1,6 @@
 import React from "react";
 import {Field, reduxForm} from 'redux-form';
-import "./TablesPage.scss"
+import "./TablePage.scss"
 import {Input} from "../../common/components/FormControl/FormControl";
 import {maxLengthCreator, required} from "../../common/js/validators";
 

@@ -11,6 +11,7 @@ body {
   background: linear-gradient(to right, #7e08af 10%, #5858FA, #3c99cb);
   background-size: auto 100%;
   min-width: 834px;
+  overflow-y: hidden;
 }
 
 #root {

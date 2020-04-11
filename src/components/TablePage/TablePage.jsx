@@ -1,20 +1,32 @@
 import React from "react";
-import "./TablesPage.scss"
-import WordsList from "./WordsList";
+import "./TablePage.scss"
+import WordList from "./WordList";
 import AddWordForm from "./AddWordForm";
 import WordsBases from "./WordBases";
 
 
-function TablesPage(props) {
+const arr = [
+  "common",
+  "learned",
+  "repeat",
+  "forgiven",
+  "something",
+  "just",
+  "name",
+  "eleven",
+  "symbols",
+];
+
+function TablePage(props) {
   return (
     <div className="tables-page">
       <div className="table-page__content">
-        <WordsList/>
+        <WordList bases={arr}/>
         <div className="list-control">
           <div className="add-word_wrapper">
             <AddWordForm/>
           </div>
-            <WordsBases/>
+            <WordsBases bases={arr}/>
         </div>
       </div>
     </div>
@@ -22,4 +34,4 @@ function TablesPage(props) {
 }
 
 
-export default TablesPage;
+export default TablePage;

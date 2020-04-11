@@ -1,26 +1,15 @@
 import React from "react";
 import cn from "classnames";
 import {Field, reduxForm} from "redux-form";
-import "./TablesPage.scss"
+import "./TablePage.scss"
 import {Input} from "../../common/components/FormControl/FormControl";
 import {maxLengthCreator, required} from "../../common/js/validators";
 
-const arr = [
-  "common",
-  "learned",
-  "repeat",
-  "forgiven",
-  "something",
-  "just",
-  "name",
-  "eleven",
-  "symbols",
-];
 
 
 const maxLength = maxLengthCreator(11);
 
-function WordsBases(props) {
+function WordBases(props) {
 
   const base = "common";
 
@@ -31,9 +20,9 @@ function WordsBases(props) {
       </div>
       <div className="words-bases">
         {
-          arr.map(i => {
+          props.bases.map((item, index) => {
             return (
-              <div className={cn("words-bases__base", i === base && "selected")}>{i}</div>
+              <div key={index} className={cn("words-bases__base", item === base && "selected")}>{item}</div>
             )
           })
         }
@@ -76,4 +65,4 @@ const AddBaseWrapper = reduxForm({
 
 
 
-export default WordsBases;
+export default WordBases;
