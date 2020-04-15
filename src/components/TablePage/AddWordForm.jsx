@@ -2,7 +2,7 @@ import React from "react";
 import {Field, reduxForm} from 'redux-form';
 import "./TablePage.scss"
 import {Input} from "../../common/components/FormControl/FormControl";
-import {maxLengthCreator, required} from "../../common/js/validators";
+import {maxLengthCreator} from "../../common/js/validators";
 
 
 const engMaxLength = maxLengthCreator(40);

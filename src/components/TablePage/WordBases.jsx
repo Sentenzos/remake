@@ -4,29 +4,56 @@ import {Field, reduxForm} from "redux-form";
 import "./TablePage.scss"
 import {Input} from "../../common/components/FormControl/FormControl";
 import {maxLengthCreator, required} from "../../common/js/validators";
-
+import {ReactComponent as Transfer} from "../../assets/images/transfer.svg";
 
 
 const maxLength = maxLengthCreator(11);
 
 function WordBases(props) {
 
-  const base = "common";
+  const setBaseToTransferTo = (currentBase, baseToTransferTo) => {
+    if ( currentBase !== baseToTransferTo) {
+      props.setBaseToTransferTo(baseToTransferTo);
+    }
+  };
 
   return (
-    <div className="words-bases__wrapper">
-      <div className="words-bases__title">
+    <div className="word-bases__wrapper">
+      <div className="word-bases__title">
         BASES
       </div>
-      <div className="words-bases">
+      <div className="word-bases">
         {
-          props.bases.map((item, index) => {
+          props.basesNames.map((baseName, index) => {
+            if (baseName === "common" &&
+              props.mode === "transfer" &&
+              props.currentBaseName !== "common") return;
+
             return (
-              <div key={index} className={cn("words-bases__base", item === base && "selected")}>{item}</div>
+              <div key={index}
+                   className={cn("word-bases__base",
+                     baseName === props.currentBaseName && "selected",
+                     //включает подсветку кнопок, чтобы обратить внимание пользователя
+                     props.mode === "transfer" && "transfer"
+                   )}
+                   onClick={props.mode === "transfer" ?
+                     () => setBaseToTransferTo(props.currentBaseName, baseName)  :
+                     (e) => props.getBase(e.target.textContent)}
+              >
+
+                {
+                  props.baseToTransferTo === baseName &&
+                  <div className="base-to-transfer-to">
+                    <Transfer/>
+                  </div>
+                }
+
+                {baseName}
+              </div>
             )
           })
         }
-        <div className="words-bases__btn">
+        <div className="word-bases__btn">
           +
         </div>
       </div>
@@ -61,8 +88,6 @@ function AddBase(props) {
 const AddBaseWrapper = reduxForm({
   form: "addBase"
 })(AddBase);
-
-
 
 
 export default WordBases;

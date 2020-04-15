@@ -1,10 +1,16 @@
 @import "../../common/css/sundries";
 
 .table-page__content {
+  position: relative;
   max-width: 1100px;
+  min-height: 45.75rem;
   margin: 3rem auto 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+          "word-list word-list list-control list-control"
+          ". paginator paginator ."
+;
   justify-content: left;
 }
 
@@ -16,6 +22,7 @@
 
 .word-list {
   border-collapse: collapse;
+  grid-area: word-list;
 }
 
 .word-list__tr {
@@ -23,11 +30,11 @@
 }
 
 .word-list__left-column {
+  position: relative;
   padding-right: 1rem;
   border-right: 1px solid #ffffff;
   text-align: right;
   width: 45%;
-  position: relative;
 }
 
 .word-list__right-column {
@@ -70,6 +77,7 @@
 
 .list-control {
   display: grid;
+  grid-area: list-control;
   justify-content: end;
   align-content: start;
 }
@@ -147,7 +155,7 @@
   opacity: 0;
 }
 
-.words-bases__wrapper {
+.word-bases__wrapper {
   display: grid;
   position: relative;
   grid-auto-flow: row;
@@ -156,14 +164,14 @@
   width: 12rem;
 }
 
-.words-bases {
+.word-bases {
   display: grid;
   grid-auto-flow: row;
   justify-items: center;
   margin-top: 0.2rem;
 }
 
-.words-bases__base {
+.word-bases__base {
   display: grid;
   justify-items: center;
   align-content: center;
@@ -176,18 +184,23 @@
   font-family: "Kanit Regular", sans-serif;
   font-size: 0.9rem;
   cursor: pointer;
+  position: relative;
 }
 
-.words-bases__base:hover {
+.word-bases__base.transfer {
+  box-shadow:0 0 10px #ffffff;
+}
+
+.word-bases__base:hover {
   background-color: #f5f5f5;
 }
 
-.words-bases__base.selected {
+.word-bases__base.selected {
   background-color: #7e08af;
   color: #ffffff;
 }
 
-.words-bases__btn {
+.word-bases__btn {
   display: grid;
   justify-items: center;
   align-items: center;
@@ -203,7 +216,7 @@
   cursor: pointer;
 }
 
-.words-bases__title {
+.word-bases__title {
   color: #ffffff;
   font-family: "Viga Regular", sans-serif;
 }
@@ -234,7 +247,7 @@
   padding-top: 0.3rem;
 }
 
-.word-list__word-control-menu {
+.word-control-menu {
   display: grid;
   grid-auto-flow: column;
   align-items: center;
@@ -260,8 +273,13 @@
   border-radius: 0.25rem;
 }
 
+
 .word-control-menu__btn:hover {
   background-color: rgba(126, 8, 175, 0.1);
+}
+
+.word-control-menu__btn.selected {
+  background-color: #35f066;
 }
 
 .word-control-menu__btn svg {
@@ -286,7 +304,6 @@
 
 .word-control-menu__bases-for-transfer {
   position: absolute;
-  //top: 80px;
   margin-top: 0.5rem;
   width: 6.8rem;
   background-color: rgba(0, 0, 0, 0.1);
@@ -305,4 +322,91 @@
 
 .base-for-transfer:hover {
   color: #7e08af;
+}
+
+.paginator {
+  display: grid;
+  grid-area: paginator;
+  grid-auto-flow: column;
+  justify-content: center;
+  align-items: end;
+}
+
+.paginator__page-btns {
+  display: grid;
+  justify-content: space-between;
+  grid-auto-flow: column;
+}
+
+.paginator__page-btn,
+.paginator__prev-page,
+.paginator__next-page {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  height: 1.6rem;
+  width: 1.7rem;
+  background-color: #ffffff;
+  border-radius: 0.25rem;
+  margin-left: 0.2rem;
+  font-family: "Viga Regular", sans-serif;
+  font-size: 0.85rem;
+  color: #7e08af;
+  cursor: pointer;
+}
+
+.paginator__page-btn:hover,
+.paginator__prev-page:hover,
+.paginator__next-page:hover {
+  background-color: #f5f5f5;
+}
+
+.paginator__page-btn:first-child {
+  margin-left: 0;
+}
+
+.paginator__page-btn.present-page {
+  color: #ffffff;
+  background-color: #7e08af;
+}
+
+.paginator__prev-page {
+  margin-left: 0;
+  margin-right: 0.2rem;
+}
+
+.paginator__prev-page svg,
+.paginator__next-page svg {
+  height: 1.1rem;
+  width: 1.1rem;
+  fill: #7e08af;
+}
+
+.base-to-transfer-to {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  position: absolute;
+  height: 1.2rem;
+  width: 1.2rem;
+  left: -1.6rem;
+  background-color: #35f066;
+  border-radius: 0.25rem;
+}
+
+.base-to-transfer-to svg {
+  height: 0.8rem;
+  width: 0.8rem;
+}
+
+.edit-input {
+  width: 80%;
+  height: 85%;
+  border-radius: 0.25rem;
+  padding-left: 0.3rem;
+  border: none;
+  outline: none;
+  font-family: "Roboto Condensed Regular", sans-serif;
+  color: #7e08af;
+  font-size: 0.9rem;
 }

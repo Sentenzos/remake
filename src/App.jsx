@@ -4,8 +4,8 @@ import './App.scss';
 import {BrowserRouter, Route} from "react-router-dom";
 import Header from "./components/Header/Header";
 import CardsPage from "./components/CardsPage/CardsPage";
-import TablePage from "./components/TablePage/TablePage";
 import reduxStore from "./store/reduxStore";
+import TablePageContainer from "./components/TablePage/TablePageContainer";
 
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
     <>
       <Header/>
       <Route path="/cards" render={() => <CardsPage/>}/>
-      <Route path="/tables" render={() => <TablePage/>}/>
+      <Route path="/tables" render={() => <TablePageContainer/>}/>
     </>
   );
 }
