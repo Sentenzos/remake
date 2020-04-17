@@ -235,16 +235,22 @@
   padding-left: 0.3rem;
   font-family: "Kanit Regular", sans-serif;
   font-size: 0.9rem;
+  color: #7e08af;
 }
 
 .add-base {
   display: grid;
-  justify-items: center;
+}
+
+.add-base__btns-wrapper {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
 }
 
 .add-base__btn-wrapper {
   margin: 0;
-  padding-top: 0.3rem;
+  padding: 0.3rem;
 }
 
 .word-control-menu {
@@ -409,4 +415,16 @@
   font-family: "Roboto Condensed Regular", sans-serif;
   color: #7e08af;
   font-size: 0.9rem;
+  text-align: center;
+}
+
+.sync-error {
+  display: grid;
+  justify-content: center;
+  margin-top: 0.5rem;
+  padding: 0 0.2rem;
+  font-family: "Kanit Regular", sans-serif;
+  font-size: 0.9rem;
+  color: #ff3b3b;
+  background-color: rgba(0,0,0,0.3);
 }

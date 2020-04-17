@@ -1,13 +1,22 @@
 import React, {useEffect} from "react";
 import TablePage from "./TablePage";
 import {connect} from "react-redux";
-import {getAllBasesNames, getBase,
-  getInitBase, addSelectedWord,
-  clearSelectedWords, setBaseToTransferTo } from "../../store/reducers/tablePageReducer";
+import {
+  addNewBase,
+  addSelectedWord,
+  changeWord,
+  clearSelectedWords,
+  getAllBasesNames,
+  getBase,
+  getInitBase,
+  setBaseToTransferTo,
+  setSelectedWord,
+  setSortingMethod,
+  deleteBase
+} from "../../store/reducers/tablePageReducer";
 
 
 const TablePageContainer = (props) => {
-
   useEffect(() => {
     props.getAllBasesNames();
     props.getInitBase()
@@ -28,7 +37,10 @@ const mapStateToProps = (state) => ({
   currentBaseName: state.tablePage.currentBaseName,
   wordsOnPage: state.tablePage.wordsOnPage,
   selectedWords: state.tablePage.selectedWords,
-  baseToTransferTo: state.tablePage.baseToTransferTo
+  baseToTransferTo: state.tablePage.baseToTransferTo,
+  selectedWord: state.tablePage.selectedWord,
+  sortingMethod: state.tablePage.sortingMethod,
+  isProcessing: state.tablePage.isProcessing
 });
 
 const mapDispatchToProps = {
@@ -37,7 +49,12 @@ const mapDispatchToProps = {
   getBase,
   addSelectedWord,
   clearSelectedWords,
-  setBaseToTransferTo
+  setBaseToTransferTo,
+  setSelectedWord,
+  setSortingMethod,
+  changeWord,
+  addNewBase,
+  deleteBase
 };
 
 

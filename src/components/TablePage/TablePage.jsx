@@ -7,40 +7,6 @@ import Paginator from "./Paginator";
 import {addSelectedWord, clearSelectedWords} from "../../store/reducers/tablePageReducer";
 
 
-// const arr = [
-//   "common",
-//   "learned",
-//   "repeat",
-//   "forgiven",
-//   "something",
-//   "just",
-//   "name",
-//   "eleven",
-//   "symbols",
-// ];
-
-// const obj = {
-//   "abomination": "мерзость",
-//   "absorb": "поглощать",
-//   "abundance": "изобилие",
-//   "accelerate": "ускорять",
-//   "accomplice": "соучастник",
-//   "accomplish": "выполнять",
-//   "accustom": "приучать",
-//   "steady": "устойчивый, постоянный, стабилизировать",
-//   "ache": "устойчивый, постоянный, стабилизировать",
-//   "acrid": "едкий, резкий",
-//   "adequate": "адекватный",
-//   "adjective": "прилагательное",
-//   "admission": "вход, прием, признание",
-//   "admit": "признавать",
-//   "adopt": "принимать",
-//   "adore": "обожать",
-//   "affect": "влиять",
-//   "affectionate": "любящий",
-// };
-
-
 function TablePage(props) {
   const [pageNumber, setPageNumber] = useState(1);
   const [portionNumber, setPortionNum] = useState(1);
@@ -64,6 +30,12 @@ function TablePage(props) {
                   clearSelectedWords={props.clearSelectedWords}
                   setBaseToTransferTo={props.setBaseToTransferTo}
                   baseToTransferTo={props.baseToTransferTo}
+                  selectedWord={props.selectedWord}
+                  setSelectedWord={props.setSelectedWord}
+                  sortingMethod={props.sortingMethod}
+                  setSortingMethod={props.setSortingMethod}
+                  changeWord={props.changeWord}
+                  isProcessing={props.isProcessing}
         />
         <div className="list-control">
           <div className="add-word_wrapper">
@@ -75,6 +47,8 @@ function TablePage(props) {
                       mode={mode}
                       setBaseToTransferTo={props.setBaseToTransferTo}
                       baseToTransferTo={props.baseToTransferTo}
+                      addNewBase={props.addNewBase}
+                      deleteBase={props.deleteBase}
           />
         </div>
         <Paginator pageNumber={pageNumber}
@@ -88,6 +62,5 @@ function TablePage(props) {
     </div>
   )
 }
-
 
 export default TablePage;

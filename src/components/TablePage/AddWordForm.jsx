@@ -9,6 +9,7 @@ const engMaxLength = maxLengthCreator(40);
 const rusMaxLength = maxLengthCreator(30);
 
 function AddWordForm(props) {
+
   return (
     <form className="add-word">
       <div className="add-word__btns">
