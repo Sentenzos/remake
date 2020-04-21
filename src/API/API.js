@@ -22,5 +22,14 @@ export const tablePageAPI = {
   },
   deleteBase: (baseName) => {
     return axios.delete('/deleteBase', {data: {baseName}});
+  },
+  addWord: (wordData) => {
+    return axios.put('/addNewWord', wordData);
+  },
+  transferWords: (wordData) => {
+    return axios.put('/transferWordsFromBase', wordData);
+  },
+  deleteWords: (wordData) => {
+    return axios.delete('/deleteWordsFromBase', {data: wordData})
   }
 };

@@ -5,19 +5,16 @@ import {Input} from "../../common/components/FormControl/FormControl";
 import {maxLengthCreator} from "../../common/js/validators";
 
 
-const engMaxLength = maxLengthCreator(40);
-const rusMaxLength = maxLengthCreator(30);
-
 function AddWordForm(props) {
 
   return (
-    <form className="add-word">
+    <form className="add-word" onSubmit={props.handleSubmit}>
       <div className="add-word__btns">
         <label className="add-word__add-wrapper">
           добавить
           <button className="add-word__add-btn"/>
         </label>
-        <div className="add-word__cancel-btn">
+        <div className="add-word__cancel-btn" onClick={props.resetAddWord}>
           отмена
         </div>
       </div>
@@ -27,7 +24,6 @@ function AddWordForm(props) {
         name={"engWord"}
         component={Input}
         placeholder={"english"}
-        validate={[engMaxLength]}
         wrapperClassName={"add-eng-word__wrapper"}
       />
       <Field
@@ -36,9 +32,13 @@ function AddWordForm(props) {
         name={"rusWord"}
         component={Input}
         placeholder={"russian"}
-        validate={[rusMaxLength]}
         wrapperClassName={"add-rus-word__wrapper"}
       />
+      {
+        props.error && <div className="add-word__error">
+          {props.error}
+        </div>
+      }
     </form>
   )
 }

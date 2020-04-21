@@ -4,7 +4,7 @@ import disableDoubleClick from "./../js/disableDoubleClick";
 import WordControlMenu from "./WordControlMenu";
 import SortList from "../js/sortList";
 import TdElem from "./TdElem";
-import checkLanguage from "../js/checkLanguage";
+import {matchLanguage} from "../js/checkLanguage";
 
 
 const WordList = React.memo((props) => {
@@ -53,13 +53,71 @@ const WordList = React.memo((props) => {
   const handleChange = (e) => {
     const newValue = e.target.value;
 
-    if (checkLanguage(selectedWord.originValue, newValue)) return;
+    if (matchLanguage(selectedWord.originValue, newValue)) return;
 
     setSelectedWord({
       ...selectedWord,
       value: newValue
     })
   };
+
+  let wordList = sortedWords.map((item, index) => {
+    if (index < wordRange.from || index > wordRange.to) return;
+    const [key, value] = item;
+
+    const restProps = {
+      mode: props.mode,
+      selectedWord: props.selectedWord,
+      selectedWords: props.selectedWords,
+      handleDoubleClick,
+      handleChange
+    };
+
+    return (
+      <tr key={index} className="word-list__tr" onMouseDown={disableDoubleClick}>
+        <TdElem className="word-list__left-column"
+                forKey={0}
+                index={index}
+                value={key}
+                {...restProps}
+        />
+        <TdElem className="word-list__right-column"
+                forKey={1}
+                index={index}
+                value={value}
+                {...restProps}
+        />
+        {
+          selectedWord?.index === index &&
+          <WordControlMenu
+            mode={props.mode}
+            basesNames={props.basesNames}
+            setMode={props.setMode}
+            clearSelectedWords={props.clearSelectedWords}
+            setBaseToTransferTo={props.setBaseToTransferTo}
+            selectedWord={selectedWord}
+            setSelectedWord={setSelectedWord}
+            selectedWords={props.selectedWords}
+            changeWord={props.changeWord}
+            isProcessing={props.isProcessing}
+            transferWords={props.transferWords}
+            deleteWords={props.deleteWords}
+          />
+        }
+      </tr>
+    )
+  });
+
+  const blankRows = Array.from({
+    length: props.wordsOnPage - wordList.length
+  }).map((item, index) => {
+    return (
+      <tr className="word-list__tr" key={index}>
+        <td className="word-list__left-column"/>
+        <td className="word-list__right-column"/>
+      </tr>
+    )
+  });
 
   return (
     <table className="word-list">
@@ -71,50 +129,10 @@ const WordList = React.memo((props) => {
       </thead>
       <tbody className="word-list__body">
       {
-        sortedWords.map((item, index) => {
-          if (index < wordRange.from || index > wordRange.to) return;
-          const [key, value] = item;
-
-          const restProps = {
-            mode: props.mode,
-            selectedWord: props.selectedWord,
-            selectedWords: props.selectedWords,
-            handleDoubleClick,
-            handleChange
-          };
-
-          return (
-            <tr key={index} className="word-list__tr" onMouseDown={disableDoubleClick}>
-              <TdElem className="word-list__left-column"
-                      forKey={0}
-                      index={index}
-                      value={key}
-                      {...restProps}
-              />
-              <TdElem className="word-list__right-column"
-                      forKey={1}
-                      index={index}
-                      value={value}
-                      {...restProps}
-              />
-              {
-                selectedWord?.index === index &&
-                <WordControlMenu
-                  mode={props.mode}
-                  basesNames={props.basesNames}
-                  setMode={props.setMode}
-                  clearSelectedWords={props.clearSelectedWords}
-                  setBaseToTransferTo={props.setBaseToTransferTo}
-                  selectedWord={selectedWord}
-                  setSelectedWord={setSelectedWord}
-                  selectedWords={props.selectedWords}
-                  changeWord={props.changeWord}
-                  isProcessing={props.isProcessing}
-                />
-              }
-            </tr>
-          )
-        })
+        wordList
+      }
+      {
+        blankRows
       }
       </tbody>
     </table>

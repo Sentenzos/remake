@@ -12,8 +12,16 @@ import {
   setBaseToTransferTo,
   setSelectedWord,
   setSortingMethod,
-  deleteBase
+  deleteBase,
+  addWord,
+  toggleIsInitializing,
+  transferWords,
+  setMode,
+  deleteWords,
+  setServerError,
+  unsetServerError
 } from "../../store/reducers/tablePageReducer";
+import {resetAddWord} from "../../store/reducers/reduxFormReducer";
 
 
 const TablePageContainer = (props) => {
@@ -21,8 +29,6 @@ const TablePageContainer = (props) => {
     props.getAllBasesNames();
     props.getInitBase()
   }, []);
-
-  if (Object.keys(props.words).length === 0) return null;
 
 
   return (
@@ -40,21 +46,26 @@ const mapStateToProps = (state) => ({
   baseToTransferTo: state.tablePage.baseToTransferTo,
   selectedWord: state.tablePage.selectedWord,
   sortingMethod: state.tablePage.sortingMethod,
-  isProcessing: state.tablePage.isProcessing
+  isProcessing: state.tablePage.isProcessing,
+  isInitializing: state.tablePage.isInitializing,
+  mode: state.tablePage.mode,
+  serverError: state.tablePage.serverError
 });
 
 const mapDispatchToProps = {
   getAllBasesNames,
-  getInitBase,
-  getBase,
-  addSelectedWord,
-  clearSelectedWords,
-  setBaseToTransferTo,
-  setSelectedWord,
-  setSortingMethod,
-  changeWord,
-  addNewBase,
-  deleteBase
+  getInitBase, getBase,
+  addSelectedWord, clearSelectedWords,
+  setBaseToTransferTo, setSelectedWord,
+  setSortingMethod, changeWord,
+  addNewBase, deleteBase,
+  addWord, resetAddWord,
+  toggleIsInitializing,
+  transferWords,
+  setMode,
+  deleteWords,
+  setServerError,
+  unsetServerError
 };
 
 

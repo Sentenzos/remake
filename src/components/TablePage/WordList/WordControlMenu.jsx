@@ -8,6 +8,7 @@ import cn from "classnames";
 
 const WordControlMenu = (props) => {
 
+  //отвечает за включение режимов и очистку данных при их выключении
   const modeControl = (modeName) => {
     //нажат крестик
     if (!modeName) {
@@ -16,7 +17,6 @@ const WordControlMenu = (props) => {
       props.setSelectedWord(null);
       return
     }
-
     //если происходила операция editing, но не была окончена, то сбросить
     //value, чтобы при следующем отображении input'a было исходное value
     if (props.selectedWord.value !== props.selectedWord.originValue) {
@@ -55,37 +55,39 @@ const WordControlMenu = (props) => {
     }
   };
 
-  const handleClickOkBtn = async () => {
-    console.log(props.isProcessing);
+  const handleClickOkBtn = () => {
     if (props.mode === "editing") {
-      await props.changeWord();
-      props.setMode(null);
-      props.setSelectedWord(null);
+      props.changeWord();
+    } else if (props.mode === "transfer") {
+      props.transferWords();
+    } else if (props.mode === "deleting") {
+      props.deleteWords();
     }
-
   };
 
   return (
     <td className="word-control-menu">
       <div className="word-control-menu__btns">
         <div className={cn("word-control-menu__btn", props.mode === "editing" && "selected")}
-             onClick={() => modeControl("editing")}>
+             onClick={props.isProcessing ? null : () => modeControl("editing")}>
           <Editing/>
         </div>
         <div className={cn("word-control-menu__btn", props.mode === "transfer" && "selected")}
-             onClick={() => modeControl("transfer")}>
+             onClick={props.isProcessing ? null : () => modeControl("transfer")}>
           <Transfer/>
         </div>
         <div className={cn("word-control-menu__btn", props.mode === "deleting" && "selected")}
-             onClick={() => modeControl("deleting")}>
+             onClick={props.isProcessing ? null : () => modeControl("deleting")}>
           <Deleting/>
         </div>
-        <div className="word-control-menu__btn" onMouseUp={() => modeControl(null)}>
+        <div className="word-control-menu__btn"
+             onClick={props.isProcessing ? null : () => modeControl(null)}>
           <Cancel/>
         </div>
       </div>
       {
-        shouldDisplayOkBtn() && <div className="word-control-menu__ok-btn" onClick={props.isProcessing ? null : handleClickOkBtn}>OK</div>
+        shouldDisplayOkBtn() && <div className="word-control-menu__ok-btn"
+                                     onClick={props.isProcessing ? null : handleClickOkBtn}>OK</div>
       }
     </td>
   )
