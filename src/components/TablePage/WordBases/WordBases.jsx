@@ -3,6 +3,7 @@ import cn from "classnames";
 import "../TablePage.scss"
 import {ReactComponent as Transfer} from "../../../assets/images/transfer.svg";
 import AddBase from "./AddBase";
+import {CSSTransition} from "react-transition-group";
 
 
 const WordBases = (props) => {
@@ -15,19 +16,22 @@ const WordBases = (props) => {
     }
   };
 
-  const changeBase = (currentBase, baseName) => {
+  const changeBase = async (currentBase, baseName) => {
     if (currentBase === baseName) return;
-    props.getBase(baseName);
+    await props.getBase(baseName);
   };
 
-  const handleClick = (baseName) => {
+  const handleClick = async (baseName) => {
     if (props.isProcessing) return;
+    if (props.wordIsAlready) return;
+
     if (props.mode === "transfer") {
       setBaseToTransferTo(props.currentBaseName, baseName);
     } else {
       props.setMode(null);
       props.setSelectedWord(null);
-      changeBase(props.currentBaseName, baseName);
+      await changeBase(props.currentBaseName, baseName);
+      props.setPageNumber(1);
     }
   };
 
@@ -50,7 +54,7 @@ const WordBases = (props) => {
                      //включает подсветку кнопок, чтобы обратить внимание пользователя
                      props.mode === "transfer" && "transfer"
                    )}
-                   onClick={()=>handleClick(baseName)}
+                   onClick={() => handleClick(baseName)}
               >
 
                 {
@@ -71,13 +75,16 @@ const WordBases = (props) => {
           +
         </div>
       </div>
-      <div className="add-base__wrapper">
-        {
-          showInput && <AddBase addNewBase={props.addNewBase}
-                                deleteBase={props.deleteBase}
+      <CSSTransition in={showInput} timeout={500}
+                     classNames="add-base__wrapper"
+                     unmountOnExit
+      >
+        <div className="add-base__wrapper">
+          <AddBase addNewBase={props.addNewBase}
+                   deleteBase={props.deleteBase}
           />
-        }
-      </div>
+        </div>
+      </CSSTransition>
     </div>
   )
 }

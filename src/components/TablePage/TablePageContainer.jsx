@@ -19,16 +19,31 @@ import {
   setMode,
   deleteWords,
   setServerError,
-  unsetServerError
+  unsetServerError,
+  setPageNumber,
+  setWordIsAlready,
+  addWordConfirm
 } from "../../store/reducers/tablePageReducer";
 import {resetAddWord} from "../../store/reducers/reduxFormReducer";
+import {changeSortingMethod} from "./js/sortList";
 
 
 const TablePageContainer = (props) => {
+
   useEffect(() => {
+    props.setSortingMethod(changeSortingMethod());
     props.getAllBasesNames();
-    props.getInitBase()
+    props.getInitBase();
   }, []);
+
+
+  //если сервер прислал сообщение с ошибкой, то убрать его через...
+  useEffect(() => {
+    if (props.serverError.state) {
+      setTimeout(() => props.unsetServerError(),
+        3000);
+    }
+  }, [props.serverError.state]);
 
 
   return (
@@ -49,7 +64,9 @@ const mapStateToProps = (state) => ({
   isProcessing: state.tablePage.isProcessing,
   isInitializing: state.tablePage.isInitializing,
   mode: state.tablePage.mode,
-  serverError: state.tablePage.serverError
+  serverError: state.tablePage.serverError,
+  pageNumber: state.tablePage.pageNumber,
+  wordIsAlready: state.tablePage.wordIsAlready
 });
 
 const mapDispatchToProps = {
@@ -65,7 +82,10 @@ const mapDispatchToProps = {
   setMode,
   deleteWords,
   setServerError,
-  unsetServerError
+  unsetServerError,
+  setPageNumber,
+  setWordIsAlready,
+  addWordConfirm
 };
 
 

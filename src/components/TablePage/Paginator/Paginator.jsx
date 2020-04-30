@@ -1,6 +1,6 @@
 import React from "react";
-import {ReactComponent as ArrowLeft} from "../../assets/images/arrow-left.svg";
-import {ReactComponent as ArrowRight} from "../../assets/images/arrow-right.svg";
+import {ReactComponent as ArrowLeft} from "../../../assets/images/arrow-left.svg";
+import {ReactComponent as ArrowRight} from "../../../assets/images/arrow-right.svg";
 import cn from "classnames";
 
 

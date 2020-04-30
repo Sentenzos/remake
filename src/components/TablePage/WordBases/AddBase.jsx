@@ -13,7 +13,7 @@ const AddBase = (props) => {
     } else {
       setError(null);
     }
-    if (value.length > 10) {
+    if (value.length > 11) {
       setError("Max 10 characters!");
       return;
     }

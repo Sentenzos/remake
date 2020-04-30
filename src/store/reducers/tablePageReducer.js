@@ -15,6 +15,8 @@ const SET_MODE = "tablePageReducer/SET_MODE";
 const TOGGLE_IS_INITIALIZING = "tablePageReducer/TOGGLE_IS_INITIALIZING";
 const SET_SERVER_ERROR = "tablePageReducer/SET_SERVER_ERROR";
 const UNSET_SERVER_ERROR = "tablePageReducer/UNSET_SERVER_ERROR";
+const SET_PAGE_NUMBER = "tablePageReducer/SET_PAGE_NUMBER";
+const SET_WORD_IS_ALREADY = "tablePageReducer/SET_WORD_IS_ALREADY";
 
 
 const initialState = {
@@ -44,7 +46,9 @@ const initialState = {
   baseToTransferTo: "",
   sortingMethod: "engAZ",
   //режим всплывающего меню (deleting, editing, transfer)
-  mode: null
+  mode: null,
+  pageNumber: 1,
+  wordIsAlready: false
 };
 
 
@@ -134,6 +138,18 @@ export const tablePageReducer = (state = initialState, action) => {
         }
       };
 
+    case SET_PAGE_NUMBER:
+      return {
+        ...state,
+        pageNumber: action.pageNumber
+      };
+
+    case SET_WORD_IS_ALREADY:
+      return {
+        ...state,
+        wordIsAlready: action.state
+      };
+
     default:
       return state
   }
@@ -153,6 +169,9 @@ export const setMode = (mode) => ({type: SET_MODE, mode});
 export const toggleIsInitializing = (state) => ({type: TOGGLE_IS_INITIALIZING, state});
 export const setServerError = (message) => ({type: SET_SERVER_ERROR, message});
 export const unsetServerError = () => ({type: UNSET_SERVER_ERROR});
+export const setPageNumber = (pageNumber) => ({type: SET_PAGE_NUMBER, pageNumber});
+export const setWordIsAlready = (state) => ({type: SET_WORD_IS_ALREADY, state});
+
 
 
 //НЕ ЗАБЫТЬ ПРОИЗВЕСТИ РЕФАКТОРИНГ САНОК!
@@ -277,6 +296,13 @@ export const addWord = (wordData) => async (dispatch, getState) => {
     });
 
     if (!res.data.warn && !res.data.err) {
+      //если слово уже есть, то вывести окно подтверждения о изменении
+      if (res.data.accept) {
+        dispatch(toggleIsProcessing(false));
+        dispatch(setWordIsAlready(true));
+        return
+      }
+
       const words = getState().tablePage.words;
       dispatch(setWords({
         ...words,
@@ -293,6 +319,34 @@ export const addWord = (wordData) => async (dispatch, getState) => {
     dispatch(setServerError(e.message));
   }
 
+  dispatch(toggleIsProcessing(false));
+};
+
+export const addWordConfirm = () => async (dispatch, getState) => {
+  dispatch(setWordIsAlready(false));
+  dispatch(toggleIsProcessing(true));
+  try {
+    const baseName = getState().tablePage.currentBaseName;
+    const {engWord, rusWord} = getState().form.addWord.values;
+
+    const res = await tablePageAPI.addWordConfirm({baseName, engWord, rusWord});
+
+    if (!res.data.warn && !res.data.err) {
+      const words = getState().tablePage.words;
+      dispatch(setWords({
+        ...words,
+        [engWord]: rusWord
+      }));
+      //очистка полей
+      dispatch(resetAddWord());
+    } else {
+      res.data.warn ?
+        dispatch(setServerError(res.data.warn)) :
+        dispatch(setServerError("На сервере произошла ошибка!"));
+    }
+  } catch (e) {
+    dispatch(setServerError(e.message));
+  }
   dispatch(toggleIsProcessing(false));
 };
 

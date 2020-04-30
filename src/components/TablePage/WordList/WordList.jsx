@@ -2,22 +2,22 @@ import React, {useMemo} from "react";
 import "../TablePage.scss"
 import disableDoubleClick from "./../js/disableDoubleClick";
 import WordControlMenu from "./WordControlMenu";
-import SortList from "../js/sortList";
+import {SortList} from "../js/sortList";
 import TdElem from "./TdElem";
 import {matchLanguage} from "../js/checkLanguage";
+import {CSSTransition} from "react-transition-group";
 
 
 const WordList = React.memo((props) => {
 
   const {
     selectedWord, setSelectedWord,
-    sortingMethod, setSortingMethod
+    sortingMethod, setSortingMethod,
   } = props;
 
   //отсортированный массив массивов со словами [слово, перевод]
   const sortedWords = useMemo(() => {
-    const sorter = new SortList(props.words);
-    return sorter.sort(sortingMethod);
+    return new SortList(props.words).sort(sortingMethod);
   }, [props.words, sortingMethod]);
 
   //с какого по какой индекс должны быть отображены слова
@@ -63,8 +63,8 @@ const WordList = React.memo((props) => {
 
   let wordList = sortedWords.map((item, index) => {
     if (index < wordRange.from || index > wordRange.to) return;
-    const [key, value] = item;
 
+    const [key, value] = item;
     const restProps = {
       mode: props.mode,
       selectedWord: props.selectedWord,
@@ -87,8 +87,12 @@ const WordList = React.memo((props) => {
                 value={value}
                 {...restProps}
         />
-        {
-          selectedWord?.index === index &&
+        <CSSTransition in={selectedWord?.index === index}
+                       classNames="word-control-menu"
+                       timeout={500}
+                       unmountOnExit
+
+        >
           <WordControlMenu
             mode={props.mode}
             basesNames={props.basesNames}
@@ -103,14 +107,15 @@ const WordList = React.memo((props) => {
             transferWords={props.transferWords}
             deleteWords={props.deleteWords}
           />
-        }
+        </CSSTransition>
       </tr>
     )
-  });
+  }).filter(i => i);
 
   const blankRows = Array.from({
     length: props.wordsOnPage - wordList.length
   }).map((item, index) => {
+
     return (
       <tr className="word-list__tr" key={index}>
         <td className="word-list__left-column"/>
@@ -118,6 +123,7 @@ const WordList = React.memo((props) => {
       </tr>
     )
   });
+
 
   return (
     <table className="word-list">

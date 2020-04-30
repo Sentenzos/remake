@@ -26,10 +26,13 @@ export const tablePageAPI = {
   addWord: (wordData) => {
     return axios.put('/addNewWord', wordData);
   },
+  addWordConfirm: (wordData) => {
+    return axios.put('/addNewWordAccept', wordData);
+  },
   transferWords: (wordData) => {
     return axios.put('/transferWordsFromBase', wordData);
   },
   deleteWords: (wordData) => {
     return axios.delete('/deleteWordsFromBase', {data: wordData})
-  }
+  },
 };

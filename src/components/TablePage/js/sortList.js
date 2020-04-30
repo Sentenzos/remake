@@ -1,12 +1,13 @@
 
 //Сам класс принимает объект слов, а метод sort его экземпляра
-//принимает название метода для сортировки в виде строки
-class SortList  {
+//принимает название метода (строка) для сортировки
+export class SortList {
   constructor(words) {
     this.words = words;
   }
 
   sort = (method) => {
+    console.log("method: " + method)
     return this[method].apply(this);
   };
 
@@ -26,7 +27,39 @@ class SortList  {
     });
 
     return words;
-  }
+  };
+
+  rusAZ = () => {
+    let words = Object.entries(this.words);
+    words.sort((a, b) => {
+      return a[1] > b[1] ? 1 : -1;
+    });
+
+    return words;
+  };
+
+  rusZA = () => {
+    let words = Object.entries(this.words);
+    words.sort((a, b) => {
+      return a[1] < b[1] ? 1 : -1;
+    });
+
+    return words;
+  };
 }
 
-export default SortList;
+//поочередно возвращает строку с именами методов сортировки
+export const changeSortingMethod = (() => {
+  const sortingMethods = ['engAZ', 'engZA', 'rusAZ', "rusZA"];
+  let i = null;
+
+  return () => {
+    if (i < sortingMethods.length - 1) {
+      i = i === null ? 0 : ++i;
+    } else {
+      i = 0;
+    }
+
+    return sortingMethods[i]
+  }
+})();
