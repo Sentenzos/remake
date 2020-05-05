@@ -14,16 +14,20 @@ import {
   setSortingMethod,
   deleteBase,
   addWord,
-  toggleIsInitializing,
   transferWords,
   setMode,
   deleteWords,
-  setServerError,
-  unsetServerError,
   setPageNumber,
   setWordIsAlready,
   addWordConfirm
 } from "../../store/reducers/tablePageReducer";
+
+import {
+  setServerError,
+  unsetServerError,
+  toggleIsInitializing,
+} from "../../store/reducers/mainReducer";
+
 import {resetAddWord} from "../../store/reducers/reduxFormReducer";
 import {changeSortingMethod} from "./js/sortList";
 
@@ -31,19 +35,9 @@ import {changeSortingMethod} from "./js/sortList";
 const TablePageContainer = (props) => {
 
   useEffect(() => {
-    props.setSortingMethod(changeSortingMethod());
     props.getAllBasesNames();
     props.getInitBase();
   }, []);
-
-
-  //если сервер прислал сообщение с ошибкой, то убрать его через...
-  useEffect(() => {
-    if (props.serverError.state) {
-      setTimeout(() => props.unsetServerError(),
-        3000);
-    }
-  }, [props.serverError.state]);
 
 
   return (
@@ -61,12 +55,13 @@ const mapStateToProps = (state) => ({
   baseToTransferTo: state.tablePage.baseToTransferTo,
   selectedWord: state.tablePage.selectedWord,
   sortingMethod: state.tablePage.sortingMethod,
-  isProcessing: state.tablePage.isProcessing,
-  isInitializing: state.tablePage.isInitializing,
+  isProcessing: state.main.isProcessing,
+  isInitializing: state.main.isInitializing,
   mode: state.tablePage.mode,
-  serverError: state.tablePage.serverError,
+  serverError: state.main.serverError,
   pageNumber: state.tablePage.pageNumber,
-  wordIsAlready: state.tablePage.wordIsAlready
+  wordIsAlready: state.tablePage.wordIsAlready,
+  isSearching: state.tablePage.isSearching
 });
 
 const mapDispatchToProps = {

@@ -1,6 +1,9 @@
 import React from "react";
-import {NavLink} from "react-router-dom";
+import {NavLink, Route} from "react-router-dom";
 import "./Header.scss"
+import WordSearch from "./WordSearch";
+import {clearSelectedWords, setBaseToTransferTo, setMode, setSelectedWord} from "../../store/reducers/tablePageReducer";
+
 
 function Header(props) {
   return (
@@ -19,7 +22,21 @@ function Header(props) {
         </div>
         <div className="header-menu__right">
           <div className="header-menu__feature-container">
-            <div className="header-menu__feature">SKANDIY</div>
+            <div className="header-menu__feature">
+              <Route path="/cards" render={() => <div>SKANDIY</div>}/>
+              <Route path="/tables" render={() => <WordSearch
+                searchEngWord={props.searchEngWord}
+                searchRusWord={props.searchRusWord}
+                setMode={props.setMode}
+                clearSelectedWords={props.clearSelectedWords}
+                setBaseToTransferTo={props.setBaseToTransferTo}
+                setSelectedWord={props.setSelectedWord}
+                getBase={props.getBase}
+                currentBaseName={props.currentBaseName}
+                isSearching={props.isSearching}
+              />}
+              />
+            </div>
             <span className="header-menu__delimiter"/>
           </div>
         </div>

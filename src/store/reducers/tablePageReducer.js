@@ -1,6 +1,7 @@
 import {tablePageAPI} from "../../API/API";
 import {stopSubmit} from "redux-form";
 import {resetAddWord} from "./reduxFormReducer";
+import {setServerError, toggleIsProcessing, toggleIsInitializing} from "./mainReducer";
 
 const SET_WORDS = "tablePageReducer/SET_WORDS";
 const SET_BASE_NAME = "tablePageReducer/SET_BASE_NAME";
@@ -10,13 +11,10 @@ const CLEAR_SELECTED_WORDS = "tablePageReducer/CLEAR_SELECTED_WORDS";
 const SET_BASE_TO_TRANSFER_TO = "tablePageReducer/SET_BASE_TO_TRANSFER_TO";
 const SET_SELECTED_WORD = "tablePageReducer/SET_SELECTED_WORD";
 const SET_SORTING_METHOD = "tablePageReducer/SET_SORTING_METHOD";
-const TOGGLE_IS_PROCESSING = "tablePageReducer/IS_PROCESSING";
 const SET_MODE = "tablePageReducer/SET_MODE";
-const TOGGLE_IS_INITIALIZING = "tablePageReducer/TOGGLE_IS_INITIALIZING";
-const SET_SERVER_ERROR = "tablePageReducer/SET_SERVER_ERROR";
-const UNSET_SERVER_ERROR = "tablePageReducer/UNSET_SERVER_ERROR";
 const SET_PAGE_NUMBER = "tablePageReducer/SET_PAGE_NUMBER";
 const SET_WORD_IS_ALREADY = "tablePageReducer/SET_WORD_IS_ALREADY";
+const SET_IS_SEARCHING = "tablePageReducer/SET_IS_SEARCHING";
 
 
 const initialState = {
@@ -28,9 +26,6 @@ const initialState = {
     message: "",
     state: false
   },
-  //загрузка слов при входе на страницу
-  isInitializing: false,
-  isProcessing: false,
   selectedWord: {
     //value нужен инпуту для value, так же в него onChange записывает новые значения
     value: "",
@@ -48,7 +43,8 @@ const initialState = {
   //режим всплывающего меню (deleting, editing, transfer)
   mode: null,
   pageNumber: 1,
-  wordIsAlready: false
+  wordIsAlready: false,
+  isSearching: false
 };
 
 
@@ -102,40 +98,10 @@ export const tablePageReducer = (state = initialState, action) => {
         sortingMethod: action.sortingMethod
       };
 
-    case TOGGLE_IS_PROCESSING:
-      return {
-        ...state,
-        isProcessing: action.state
-      };
-
     case SET_MODE:
       return {
         ...state,
         mode: action.mode
-      };
-
-    case TOGGLE_IS_INITIALIZING:
-      return {
-        ...state,
-        isInitializing: action.state
-      };
-
-    case SET_SERVER_ERROR:
-      return {
-        ...state,
-        serverError: {
-          message: action.message,
-          state: true
-        }
-      };
-
-    case UNSET_SERVER_ERROR:
-      return {
-        ...state,
-        serverError: {
-          ...state.serverError,
-          state: false
-        }
       };
 
     case SET_PAGE_NUMBER:
@@ -148,6 +114,12 @@ export const tablePageReducer = (state = initialState, action) => {
       return {
         ...state,
         wordIsAlready: action.state
+      };
+
+    case SET_IS_SEARCHING:
+      return {
+        ...state,
+        isSearching: action.state
       };
 
     default:
@@ -164,14 +136,10 @@ export const clearSelectedWords = () => ({type: CLEAR_SELECTED_WORDS});
 export const setBaseToTransferTo = (baseName) => ({type: SET_BASE_TO_TRANSFER_TO, baseName});
 export const setSelectedWord = (wordData) => ({type: SET_SELECTED_WORD, wordData});
 export const setSortingMethod = (sortingMethod) => ({type: SET_SORTING_METHOD, sortingMethod});
-export const toggleIsProcessing = (state) => ({type: TOGGLE_IS_PROCESSING, state});
 export const setMode = (mode) => ({type: SET_MODE, mode});
-export const toggleIsInitializing = (state) => ({type: TOGGLE_IS_INITIALIZING, state});
-export const setServerError = (message) => ({type: SET_SERVER_ERROR, message});
-export const unsetServerError = () => ({type: UNSET_SERVER_ERROR});
 export const setPageNumber = (pageNumber) => ({type: SET_PAGE_NUMBER, pageNumber});
 export const setWordIsAlready = (state) => ({type: SET_WORD_IS_ALREADY, state});
-
+export const setIsSearching = (state) => ({type: SET_IS_SEARCHING, state});
 
 
 //НЕ ЗАБЫТЬ ПРОИЗВЕСТИ РЕФАКТОРИНГ САНОК!
@@ -194,7 +162,7 @@ export const getAllBasesNames = () => async (dispatch) => {
   dispatch(toggleIsProcessing(false));
 };
 
-//при входе на страницу получает последнюю выбранную пользователем базу слов
+//получает последнюю выбранную пользователем базу слов
 export const getInitBase = () => async (dispatch) => {
   dispatch(toggleIsInitializing(true));
 
@@ -225,6 +193,7 @@ export const getBase = (baseName) => async (dispatch) => {
     if (!res.data.warn && !res.data.err) {
       dispatch(setBaseName(res.data.baseName));
       dispatch(setWords(res.data.words));
+      dispatch(setIsSearching(false));
     } else {
       res.data.warn ?
         dispatch(setServerError(res.data.warn)) :
@@ -468,6 +437,60 @@ export const deleteWords = () => async (dispatch, getState) => {
       dispatch(clearSelectedWords());
       dispatch(setMode(null));
       dispatch(setWords(words));
+    } else {
+      res.data.warn ?
+        dispatch(setServerError(res.data.warn)) :
+        dispatch(setServerError("На сервере произошла ошибка!"));
+    }
+  } catch (e) {
+    dispatch(setServerError(e.message));
+  }
+
+  dispatch(toggleIsProcessing(false));
+};
+
+export const searchEngWord = (data) => async (dispatch) => {
+  dispatch(toggleIsProcessing(true));
+  try {
+    const res = await tablePageAPI.searchEngWord(data);
+
+    if (!res.data.warn && !res.data.err) {
+      //массив объектов со словами
+      const wordArray = res.data.words;
+      //делаю из него объект
+      const words = {};
+      for (const object of wordArray) {
+        words[Object.keys(object)[0]] = Object.values(object)[0];
+      }
+      dispatch(setWords(words));
+      dispatch(setIsSearching(true));
+    } else {
+      res.data.warn ?
+        dispatch(setServerError(res.data.warn)) :
+        dispatch(setServerError("На сервере произошла ошибка!"));
+    }
+  } catch (e) {
+    dispatch(setServerError(e.message));
+  }
+
+  dispatch(toggleIsProcessing(false));
+};
+
+export const searchRusWord = (data) => async (dispatch) => {
+  dispatch(toggleIsProcessing(true));
+  try {
+    const res = await tablePageAPI.searchRusWord(data);
+
+    if (!res.data.warn && !res.data.err) {
+      //массив объектов со словами
+      const wordArray = res.data.words;
+      //делаю из него объект
+      const words = {};
+      for (const object of wordArray) {
+        words[Object.keys(object)[0]] = Object.values(object)[0];
+      }
+      dispatch(setWords(words));
+      dispatch(setIsSearching(true));
     } else {
       res.data.warn ?
         dispatch(setServerError(res.data.warn)) :

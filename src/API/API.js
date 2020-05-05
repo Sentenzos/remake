@@ -1,6 +1,6 @@
 import axios from "axios";
 
-//сервер написан давно и на коленке, по этому API страшный
+
 export const tablePageAPI = {
   getAllBasesNames: () => {
     return axios.get('/getAllBasesNames');
@@ -34,5 +34,20 @@ export const tablePageAPI = {
   },
   deleteWords: (wordData) => {
     return axios.delete('/deleteWordsFromBase', {data: wordData})
+  },
+  searchEngWord: ({baseName, word}) => {
+    return axios.get(`/getEngWord/${baseName}/${word}`)
+  },
+  searchRusWord: ({baseName, word}) => {
+    return axios.get(`/getRusWord/${baseName}/${word}`)
+  },
+};
+
+export const cardsPageAPI = {
+  getAllBasesNames: () => {
+    return axios.get('/getBasesNames');
+  },
+  getInitBase: () => {
+    return axios.get('/getBase');
   },
 };

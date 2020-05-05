@@ -1,33 +1,42 @@
-import React from 'react';
-import {Provider} from "react-redux";
+import React, {useEffect} from 'react';
+import {connect} from "react-redux";
 import './App.scss';
-import {BrowserRouter, Route} from "react-router-dom";
-import Header from "./components/Header/Header";
-import CardsPage from "./components/CardsPage/CardsPage";
-import reduxStore from "./store/reduxStore";
+import {Route} from "react-router-dom";
 import TablePageContainer from "./components/TablePage/TablePageContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
+import {unsetServerError} from "./store/reducers/mainReducer";
+import CardsPageContainer from "./components/CardsPage/CardsPageContainer";
 
 
-function App() {
+function App(props) {
+
+  //если сервер прислал сообщение с ошибкой, то убрать его через...
+  useEffect(() => {
+    if (props.serverError.state) {
+      setTimeout(() => props.unsetServerError(),
+        3000);
+    }
+  }, [props.serverError.state]);
 
   return (
     <>
-      <Header/>
-      <Route path="/cards" render={() => <CardsPage/>}/>
+      <HeaderContainer/>
+      <Route path="/cards" render={() => <CardsPageContainer/>}/>
       <Route path="/tables" render={() => <TablePageContainer/>}/>
     </>
   );
 }
 
 
-function AppWrapper(props) {
-  return (
-    <BrowserRouter>
-      <Provider store={reduxStore}>
-        <App/>
-      </Provider>
-    </BrowserRouter>
-  )
-}
+const mapStateToProps = (state) => ({
+  serverError: state.main.serverError
+});
 
-export default AppWrapper;
+const mapDispatchToProps = {
+  unsetServerError
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

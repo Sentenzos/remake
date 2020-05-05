@@ -11,7 +11,7 @@ import {Transition} from "react-transition-group";
 const CustomSelect = (props) => {
 
   const {options} = props;
-  const [selected, setSelected] = useState(options?.[0]);
+  const [selected, setSelected] = useState(props.selected || options[0]);
 
   //служит для обозначения конца анимации раскрытия
   const [onEntered, setOnEntered] = useState(false);

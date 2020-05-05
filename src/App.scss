@@ -19,3 +19,28 @@ body {
   height: 100%;
 }
 
+.server-error {
+  width: 80%;
+  height: 2rem;
+  display: flex;
+  margin: 0.5rem auto 0;
+  justify-content: center;
+  align-content: center;
+  font-family: "Roboto Condensed Regular", sans-serif;
+  font-size: 1rem;
+  color: #7e08af;
+  transition: opacity 1000ms;
+  opacity: 0;
+}
+
+.server-error-enter {
+  opacity: 1;
+}
+
+.server-error-enter-active {
+  opacity: 1;
+}
+
+.server-error-enter-done {
+  opacity: 1;
+}

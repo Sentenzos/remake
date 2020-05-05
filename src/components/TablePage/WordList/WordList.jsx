@@ -27,6 +27,7 @@ const WordList = React.memo((props) => {
   };
 
   const handleDoubleClick = (e, index, key) => {
+    if (props.isSearching) return;
     if (props.mode === "transfer" && props.baseToTransferTo) {
       props.addSelectedWord({
         word: sortedWords[index][0],
@@ -129,7 +130,8 @@ const WordList = React.memo((props) => {
     <table className="word-list">
       <thead className="word-list__head">
       <tr className="word-list__tr">
-        <td className="word-list__left-column">{props.currentBaseName.toUpperCase()} :</td>
+        <td className="word-list__left-column">{props.isSearching ?
+          "SEARCHING" : props.currentBaseName.toUpperCase()} :</td>
         <td className="word-list__right-column">{props.wordCount}</td>
       </tr>
       </thead>

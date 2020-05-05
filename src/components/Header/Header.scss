@@ -35,9 +35,11 @@
   text-decoration: none;
   font-family: "Kanit Regular", sans-serif;
   font-size: 0.9rem;
+  transition: color 500ms, border 100ms;
 }
 
 .header-menu__item:hover {
+  color: #7e08af;
   border-bottom: 2px solid #ffffff;
 }
 
@@ -52,7 +54,8 @@
   font-family: "Viga Regular", sans-serif;
   font-size: 1.2rem;
   color: #ffffff;
-  cursor: pointer;
+  transition: color 500ms;
+  //cursor: pointer;
 }
 
 .header-menu__feature:hover {
@@ -63,4 +66,69 @@
   height: 80%;
   border-right: 2px solid white;
   margin-left: 2rem;
+}
+
+.word-search__title {
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 250ms;
+}
+
+.word-search__title-enter {
+  opacity: 0;
+}
+
+.word-search__title-enter-active,
+.word-search__title-enter-done {
+  opacity: 1;
+}
+
+.word-search__title-exit,
+.word-search__title-exit-active,
+.word-search__title-exit-done {
+  opacity: 0;
+}
+
+
+.word-search__searcher {
+  display: flex;
+  opacity: 0;
+  transition: opacity 250ms;
+}
+
+.word-search__searcher-enter {
+  opacity: 0;
+}
+
+.word-search__searcher-enter-active,
+.word-search__searcher-enter-done {
+  opacity: 1;
+}
+
+.word-search__searcher-exit,
+.word-search__searcher-exit-active,
+.word-search__searcher-exit-done {
+  opacity: 0;
+}
+
+.word-search__button {
+  height: 1.5rem;
+  width: 0.7rem;
+  margin-right: 0.3rem;
+  background-color: #7e08af;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.word-search__input {
+  box-sizing: border-box;
+  height: 1.5rem;
+  width: 10rem;
+  padding-left: 0.3rem;
+  border-radius: 0.25rem;
+  border: none;
+  outline-color: #7e08af;
+  font-family: "Roboto Regular", sans-serif;
+  color: #7e08af;
+  font-size: 0.9rem;
 }

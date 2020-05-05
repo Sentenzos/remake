@@ -17,7 +17,6 @@ import {setWordIsAlready} from "../../store/reducers/tablePageReducer";
 const TablePage = (props) => {
   const [portionNumber, setPortionNum] = useState(1);
   const wordCount = Object.keys(props.words).length;
-
   const {sortingMethod} = props;
 
   const handleSubmit = (data) => {
@@ -27,11 +26,9 @@ const TablePage = (props) => {
     })
   };
 
-
   const changeSorting = () => {
     props.setSortingMethod(changeSortingMethod());
   };
-
 
   if (props.isInitializing) {
     return <div className="is-initializing">
@@ -41,13 +38,13 @@ const TablePage = (props) => {
 
   return (
     <div className="tables-page">
+      <CSSTransition classNames="server-error"
+                     in={props.serverError.state}
+                     timeout={1000}
+      >
+        <div className="server-error">{props.serverError.message}</div>
+      </CSSTransition>
       <div className="table-page__content">
-        <CSSTransition classNames="server-error"
-                       in={props.serverError.state}
-                       timeout={1000}
-        >
-          <div className="server-error">{props.serverError.message}</div>
-        </CSSTransition>
         <WordList basesNames={props.basesNames}
                   words={props.words}
                   currentBaseName={props.currentBaseName}
@@ -69,6 +66,7 @@ const TablePage = (props) => {
                   isProcessing={props.isProcessing}
                   transferWords={props.transferWords}
                   deleteWords={props.deleteWords}
+                  isSearching={props.isSearching}
         />
         <div className="list-control">
           <div className="add-word__wrapper">

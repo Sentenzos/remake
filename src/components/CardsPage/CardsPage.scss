@@ -1,7 +1,12 @@
+.cards-page {
+  padding-top: 1px;
+  height: 100%;
+}
+
 .cards-wrapper {
   height: 22rem;
   width: 40rem;
-  margin: 12rem auto 0 auto;
+  margin: 10rem auto 0 auto;
   border-radius: 50%;
   box-shadow: 17px 5px 0 -7px #7e08af;
   position: relative;
@@ -92,4 +97,20 @@
   position: absolute;
   top: 9rem;
   right: 34rem;
+}
+
+
+#wave {
+  stroke-dasharray: 50 500;
+  stroke-dashoffset: 50;
+  animation: dash 2s linear infinite;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 50;
+  }
+  to {
+    stroke-dashoffset: -500;
+  }
 }

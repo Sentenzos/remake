@@ -51,11 +51,11 @@ export class SortList {
 //поочередно возвращает строку с именами методов сортировки
 export const changeSortingMethod = (() => {
   const sortingMethods = ['engAZ', 'engZA', 'rusAZ', "rusZA"];
-  let i = null;
+  let i = 0;
 
   return () => {
     if (i < sortingMethods.length - 1) {
-      i = i === null ? 0 : ++i;
+       ++i;
     } else {
       i = 0;
     }

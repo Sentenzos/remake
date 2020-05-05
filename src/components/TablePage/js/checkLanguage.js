@@ -16,7 +16,7 @@ export const matchLanguage = (originalText, newText) => {
 };
 
 
-
+//возвращает boolean результат совпадения language с text
 export const checkLanguage = (language, text) => {
   if (language === "russian") {
     return  !/[^а-яё,.()\|/ ]/i.test(text);

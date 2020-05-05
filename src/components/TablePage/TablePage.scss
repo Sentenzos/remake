@@ -7,7 +7,9 @@
   margin: 1.5rem auto 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-areas: ". server-error server-error ." "word-list word-list list-control list-control" "sort-changer paginator paginator .";
+  grid-template-areas:
+  "word-list word-list list-control list-control"
+  "sort-changer paginator paginator .";
   justify-content: left;
   align-content: start;
 }
@@ -135,6 +137,7 @@
   cursor: pointer;
   font-size: 0.95rem;
   margin-left: 0.5rem;
+  transition: color 500ms;
 }
 
 .add-word__cancel-btn {
@@ -363,7 +366,7 @@
   grid-auto-flow: column;
   justify-content: center;
   align-items: end;
-  margin-top: 4rem;
+  margin-top: 3.5rem;
 }
 
 .paginator__page-btns {
@@ -387,6 +390,7 @@
   font-size: 0.85rem;
   color: #7e08af;
   cursor: pointer;
+  transition: background-color 500ms;
 }
 
 .paginator__page-btn:hover,
@@ -505,38 +509,13 @@
   width: 10rem;
 }
 
-.server-error {
-  grid-area: server-error;
-  display: grid;
-  justify-content: center;
-  align-content: center;
-  height: 2rem;
-  font-family: "Roboto Condensed Regular", sans-serif;
-  font-size: 1rem;
-  color: #7e08af;
-  transition: opacity 1000ms;
-  opacity: 0;
-}
-
-.server-error-enter {
-  opacity: 1;
-}
-
-.server-error-enter-active {
-  opacity: 1;
-}
-
-.server-error-enter-done {
-  opacity: 1;
-}
-
 .sort-changer {
   position: relative;
   display: grid;
   justify-content: center;
   align-items: center;
   justify-self: right;
-  margin-top: 4rem;
+  margin-top: 3.5rem;
   margin-right: 0.7rem;
   width: 2rem;
   height: 1.6rem;
@@ -600,4 +579,3 @@
 .word-is-already__btns div:hover {
   color: #5858FA;
 }
-
