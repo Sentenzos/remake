@@ -50,4 +50,14 @@ export const cardsPageAPI = {
   getInitBase: () => {
     return axios.get('/getBase');
   },
+  getBase: (baseName) => {
+    return axios.put('/queryAnotherBase', {baseName});
+  }
+};
+
+
+export const homePageAPI = {
+  login: ({login, password}) => {
+    return axios.post('/login', {name: login, pass: password});
+  },
 };

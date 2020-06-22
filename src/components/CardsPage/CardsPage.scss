@@ -19,7 +19,7 @@
   justify-items: center;
 }
 
-.card-upper, .card-bottom {
+.card-top, .card-bottom {
   display: grid;
   justify-content: center;
   align-items: center;
@@ -79,12 +79,20 @@
   left: -6.5rem;
 }
 
+.control-btn__wrapper.disabled .control-btn__name,
+.control-btn__lamp.disabled {
+  color: #d4d4d4;
+}
+
 .control-btn__lamp {
   height: 0.8rem;
   width: 0.8rem;
   margin-right: 0.5rem;
   border-radius: 50%;
   background-color: white;
+}
+.control-btn__lamp.disabled {
+  background-color: #d4d4d4;
 }
 
 .control-btn__lang-toggle {
@@ -100,7 +108,7 @@
 }
 
 
-#wave {
+.cards__wave {
   stroke-dasharray: 50 500;
   stroke-dashoffset: 50;
   animation: dash 2s linear infinite;
@@ -113,4 +121,12 @@
   to {
     stroke-dashoffset: -500;
   }
+}
+
+.cards__loading-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4rem;
+  width: 4rem;
 }

@@ -9,7 +9,10 @@ function ToggleButton(props) {
   function handleClick() {
     setState(state => {
      return  !state
-    })
+    });
+
+    if (!props.onClick) return;
+    props.onClick();
   }
 
   function prevDef(e) {

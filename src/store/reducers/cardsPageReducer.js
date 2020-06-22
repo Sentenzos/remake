@@ -6,6 +6,7 @@ const SET_BASE_NAME = "cardsPageReducer/SET_BASE_NAME";
 const SET_ALL_BASES_NAMES = "cardsPageReducer/SET_ALL_BASES_NAMES ";
 const SET_RANDOM_WORD = "cardsPageReducer/SET_RANDOM_WORD";
 const TOGGLE_WORD_STAGE = "cardsPageReducer/TOGGLE_WORD_STAGE";
+const TOGGLE_MODE = "cardsPageReducer/TOGGLE_MODE";
 
 
 const initialState = {
@@ -14,7 +15,8 @@ const initialState = {
   allBases: ['common', 'repeat', 'learned'],
   //массив вида [word, перевод]
   randomWord: [],
-  wordStage: "eng"
+  wordStage: "eng",
+  mode: "firstEng"
 };
 
 
@@ -50,6 +52,12 @@ export const cardsPageReducer = (state = initialState, action) => {
         wordStage: state.wordStage === "eng" ? "rus" : "eng"
       };
 
+    case TOGGLE_MODE:
+      return {
+        ...state,
+        mode: state.mode === "firstEng" ? "firstRus" : "firstEng"
+      };
+
     default:
       return state
   }
@@ -61,6 +69,7 @@ export const setBaseName = (baseName) => ({type: SET_BASE_NAME, baseName});
 export const setAllBasesNames = (names) => ({type: SET_ALL_BASES_NAMES, names});
 export const setRandomWord = (word) => ({type: SET_RANDOM_WORD, word});
 export const toggleWordStage = () =>({type: TOGGLE_WORD_STAGE});
+export const toggleMode = () =>({type: TOGGLE_MODE});
 
 
 export const getAllBasesNames = () => async (dispatch) => {
@@ -92,13 +101,23 @@ export const getAllBasesNames = () => async (dispatch) => {
 
 //получает последнюю выбранную пользователем базу слов
 export const getInitBase = () => async (dispatch) => {
-  dispatch(toggleIsInitializing(true));
+  return getBase(dispatch, cardsPageAPI.getInitBase.bind(this));
+};
+
+export const getOtherBase = (baseName) => async (dispatch) => {
+  return getBase(dispatch, cardsPageAPI.getBase.bind(this, baseName));
+};
+
+async function getBase(dispatch, method) {
+  dispatch(toggleIsProcessing(true));
 
   try {
-    const res = await cardsPageAPI.getInitBase();
+    const res = await method();
 
     if (!res.data.warn && !res.data.err) {
-      dispatch(setWords(res.data.words));
+      //В getInitBase приходит объект words, а в getOtherBase объект base
+      res.data.words ? dispatch(setWords(res.data.words)) :
+        dispatch(setWords(res.data.base))
     } else {
       res.data.warn ?
         dispatch(setServerError(res.data.warn)) :
@@ -108,5 +127,12 @@ export const getInitBase = () => async (dispatch) => {
     dispatch(setServerError(e.message));
   }
 
-  dispatch(toggleIsInitializing(false));
+  dispatch(toggleIsProcessing(false));
+}
+
+export const changeBase = (baseName) => async (dispatch) => {
+  dispatch(setRandomWord([]));
+  dispatch(toggleWordStage());
+  await dispatch(getOtherBase(baseName));
+  await dispatch(getAllBasesNames());
 };

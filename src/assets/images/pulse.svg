@@ -2,7 +2,7 @@
      height="109.46607"
      width="184.36845">
     <g transform="translate(0,0)">
-        <path id="wave"	style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#7e08af;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
+        <path class="cards__wave" style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#fcd0a3;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
               d="M 1.1007072,52.963103 C 22.852586,52.155573 16.43834,66.286629 17.978217,84.883612 30.593999,58.36225 27.407458,29.665987 33.938472,2.697475 39.165571,33.060386 36.265426,75.55841 36.323337,106.7143 L 47.146958,41.038775 c 2.988779,6.354218 2.039353,53.463638 8.989108,53.751201 2.884138,-0.04301 3.118671,-8.071852 3.118671,-8.071852 0.869781,-6.707612 0.753109,-33.811575 8.622206,-34.488826 C 106.26973,51.33495 144.68349,51.884499 183.0843,52.045847"	/>
     </g>
 </svg>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from "./CustomSelect.module.css";
 import {ReactComponent as Arrow} from "./assets/arrow-bottom.svg";
 import {Transition} from "react-transition-group";
@@ -12,6 +12,10 @@ const CustomSelect = (props) => {
 
   const {options} = props;
   const [selected, setSelected] = useState(props.selected || options[0]);
+
+  useEffect(() => {
+    setSelected(props.selected);
+  }, [props.selected]);
 
   //служит для обозначения конца анимации раскрытия
   const [onEntered, setOnEntered] = useState(false);
@@ -69,7 +73,8 @@ const CustomSelect = (props) => {
 
 
   const optionControl = (e) => {
-    setSelected(e.target.innerHTML);
+    if(!props.onClick) return;
+    props.onClick(e.target.innerHTML);
   };
 
 
