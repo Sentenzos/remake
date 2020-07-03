@@ -7,7 +7,8 @@ const SET_ALL_BASES_NAMES = "cardsPageReducer/SET_ALL_BASES_NAMES ";
 const SET_RANDOM_WORD = "cardsPageReducer/SET_RANDOM_WORD";
 const TOGGLE_WORD_STAGE = "cardsPageReducer/TOGGLE_WORD_STAGE";
 const TOGGLE_MODE = "cardsPageReducer/TOGGLE_MODE";
-
+const RESET_WORD_DATA = "cardsPageReducer/RESET_WORD_DATA";
+const TOGGLE_TRANSFERRING = "cardsPageReducer/TOGGLE_TRANSFERRING";
 
 const initialState = {
   currentBaseName: "",
@@ -16,7 +17,8 @@ const initialState = {
   //массив вида [word, перевод]
   randomWord: [],
   wordStage: "eng",
-  mode: "firstEng"
+  mode: "firstEng",
+  isTransferring: false
 };
 
 
@@ -58,6 +60,20 @@ export const cardsPageReducer = (state = initialState, action) => {
         mode: state.mode === "firstEng" ? "firstRus" : "firstEng"
       };
 
+    case RESET_WORD_DATA:
+      return {
+        ...state,
+        wordStage: "eng",
+        mode: "firstEng",
+        randomWord: []
+      };
+
+    case TOGGLE_TRANSFERRING:
+      return {
+        ...state,
+        isTransferring: !state.isTransferring
+      };
+
     default:
       return state
   }
@@ -70,6 +86,8 @@ export const setAllBasesNames = (names) => ({type: SET_ALL_BASES_NAMES, names});
 export const setRandomWord = (word) => ({type: SET_RANDOM_WORD, word});
 export const toggleWordStage = () =>({type: TOGGLE_WORD_STAGE});
 export const toggleMode = () =>({type: TOGGLE_MODE});
+export const resetWordData = () =>({type: RESET_WORD_DATA});
+export const toggleTransferring = () =>({type: TOGGLE_TRANSFERRING});
 
 
 export const getAllBasesNames = () => async (dispatch) => {
@@ -135,4 +153,40 @@ export const changeBase = (baseName) => async (dispatch) => {
   dispatch(toggleWordStage());
   await dispatch(getOtherBase(baseName));
   await dispatch(getAllBasesNames());
+};
+
+export const repeatTransfer = () => async (dispatch, getState) => {
+  return wordTransfer(dispatch, getState, cardsPageAPI.repeatTransfer.bind(this));
+};
+
+export const learnedTransfer = () => async (dispatch, getState) => {
+  return wordTransfer(dispatch, getState, cardsPageAPI.learnedTransfer.bind(this));
+};
+
+export const wordTransfer = async (dispatch, getState, method) => {
+  dispatch(toggleTransferring(true));
+  try {
+    const word = getState().cardsPage.randomWord[0];
+    const baseName = getState().cardsPage.currentBaseName;
+    const words = getState().cardsPage.words;
+
+    const res = await method(word, baseName);
+
+    if (!res.data.warn && !res.data.err) {
+      if (method.name.split(' ')[1] === 'learnedTransfer') {
+        dispatch(setWords(
+          Object.fromEntries(
+            Object.entries(words).filter(w => w[0] !== word))
+          )
+        )
+      }
+    } else {
+      res.data.warn ?
+        dispatch(setServerError(res.data.warn)) :
+        dispatch(setServerError("На сервере произошла ошибка!"));
+    }
+  } catch (e) {
+    dispatch(setServerError(e.message));
+  }
+  dispatch(toggleTransferring(false));
 };

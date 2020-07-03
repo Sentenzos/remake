@@ -5,15 +5,18 @@ import CustomSelect from "../../common/components/CustomSelect/CustomSelect";
 import {CSSTransition} from "react-transition-group";
 import CardsPage from "./CardsPage";
 import {connect} from "react-redux";
-import {getAllBasesNames, getInitBase, setRandomWord, toggleWordStage, changeBase, getOtherBase, toggleMode} from "../../store/reducers/cardsPageReducer";
+import {getAllBasesNames, getInitBase, setRandomWord, toggleWordStage, changeBase, getOtherBase,
+  toggleMode, resetWordData, repeatTransfer, learnedTransfer} from "../../store/reducers/cardsPageReducer";
 import {homePageAPI} from "../../API/API";
 
 
 function CardsPageContainer(props) {
 
   useEffect(() => {
+    props.resetWordData();
     props.getAllBasesNames();
     props.getInitBase();
+
   }, []);
 
   return (
@@ -30,6 +33,7 @@ const mapStateToProps = (state) => ({
   wordStage: state.cardsPage.wordStage,
   isProcessing: state.main.isProcessing,
   mode: state.cardsPage.mode,
+  isTransferring: state.cardsPage.isTransferring
 });
 
 const mapDispatchToProps = {
@@ -39,7 +43,10 @@ const mapDispatchToProps = {
   toggleWordStage,
   changeBase,
   getOtherBase,
-  toggleMode
+  toggleMode,
+  resetWordData,
+  repeatTransfer,
+  learnedTransfer
 };
 
 export default connect(

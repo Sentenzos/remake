@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useRef} from "react";
+import React, {useCallback, useRef, useState} from "react";
 import "./CardsPage.scss"
 import ToggleButton from "../../common/components/ToggleButton/ToggleButton";
 import CustomSelect from "../../common/components/CustomSelect/CustomSelect";
@@ -6,7 +6,7 @@ import {CSSTransition} from "react-transition-group";
 import wordRandomize from "./js/wordRandomize";
 import {ReactComponent as Pulse} from "../../assets/images/pulse.svg";
 import {ReactComponent as LoadingSVG} from "../../assets/images/ring-loading.svg";
-import {toggleMode} from "../../store/reducers/cardsPageReducer";
+
 
 
 function CardsPage(props) {
@@ -47,32 +47,36 @@ function CardsPage(props) {
           <div className="card-top">
             {
               props.mode === "firstEng" ?
-              engWord ? engWord : !props.isProcessing && <Pulse /> :
-                engWord ? rusWord : !props.isProcessing && <Pulse />
+                engWord ? engWord : !props.isProcessing && <Pulse/> :
+                engWord ? rusWord : !props.isProcessing && <Pulse/>
             }
           </div>
           <span className="card-delimiter"/>
           <div className="card-bottom">
             {
               props.mode === "firstEng" ?
-              props.wordStage === "rus" && rusWord :
+                props.wordStage === "rus" && rusWord :
                 props.wordStage === "rus" && engWord
             }
           </div>
           {
-            props.isProcessing && <LoadingSVG className="cards__loading-svg"/>
+            (props.isProcessing || props.isTransferring) && <LoadingSVG className="cards__loading-svg"/>
           }
         </div>
         <div className="cards-control">
           <ControlBtn name="далее" className="next"
-                      onClick={getRandomWord}
                       disabled={props.isProcessing}
+                      onClick={getRandomWord}
           />
           <ControlBtn name="выучено" className="learned"
-                      disabled={props.isProcessing}
+                      disabled={props.isProcessing || !engWord}
+                      delayOperation={true}
+                      onClick={props.learnedTransfer}
           />
           <ControlBtn name="повторить" className="repeat"
-                      disabled={props.isProcessing}
+                      disabled={props.isProcessing || !engWord}
+                      delayOperation={true}
+                      onClick={props.repeatTransfer}
           />
           <ToggleButton className="control-btn__lang-toggle"
                         activeName="rus"
@@ -93,25 +97,53 @@ function CardsPage(props) {
 
 
 function ControlBtn(props) {
-  const [stretchColor, setStretchColor] = useState(false);
+  const [delayOperation, setDelayOperation] = useState(false);
+  const [operationIsDone, setOperationIsDone] = useState(false);
 
-  const handleClick = () => {
-    if (props.onClick) {
-      props.onClick();
+
+  const handleMouseDown = (e) => {
+    e.persist();
+    e.preventDefault();
+
+    let timer;
+
+    const clear = () => {
+      setDelayOperation(false);
+      setOperationIsDone(false);
+      clearTimeout(timer);
+      e.target.removeEventListener('mouseleave', clear);
+      e.target.removeEventListener('mouseup', clear);
+    };
+
+    if (props.delayOperation) {
+      setDelayOperation(true);
+      e.target.addEventListener('mouseleave', clear);
+      e.target.addEventListener('mouseup', clear);
+
+       timer = setTimeout(() => {
+         setOperationIsDone(true);
+         if (props.onClick) {
+           props.onClick();
+         }
+      }, 700)
+
+    } else {
+      if (props.onClick) {
+        props.onClick();
+      }
     }
-
-    // if (props.stretch) {
-    //   setStretchColor
-    // }
   };
 
 
   return (
-    <label className={`control-btn__wrapper ${props.className} ${props.disabled ? "disabled" : ""}`} onMouseDown={(e) => e.preventDefault()}>
-      <div className={`control-btn__lamp ${props.disabled ? "disabled" : ""} ${stretchColor ? "stretch-color" : ""}`} />
-      <div className="control-btn__name">{props.name}</div>
-      <button disabled={props.disabled || false} className="control-btn" onClick={handleClick}/>
-    </label>
+    <div className={`control-btn ${props.className} ${props.disabled ? "disabled" : ""}`}
+         onMouseDown={props.disabled ? null : handleMouseDown}
+    >
+      <div className={`control-btn__lamp ${props.disabled ? 'disabled' : ''} 
+        ${delayOperation ? 'control-btn__lamp--yellow' : ''} ${operationIsDone ? 'control-btn__lamp--green' : ''}`}
+      />
+      <div className={`control-btn__name ${operationIsDone ? 'control-btn__name--green' : ''}`}>{props.name}</div>
+    </div>
   )
 }
 

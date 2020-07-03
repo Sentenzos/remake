@@ -6,6 +6,7 @@ import TablePageContainer from "./components/TablePage/TablePageContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {unsetServerError} from "./store/reducers/mainReducer";
 import CardsPageContainer from "./components/CardsPage/CardsPageContainer";
+import HomePageContainer from "./components/HomePage/HomePageContainer";
 
 
 function App(props) {
@@ -23,6 +24,7 @@ function App(props) {
       <HeaderContainer/>
       <Route path="/cards" render={() => <CardsPageContainer/>}/>
       <Route path="/tables" render={() => <TablePageContainer/>}/>
+      <Route exact path="/" render={() => <HomePageContainer/>}/>
     </>
   );
 }

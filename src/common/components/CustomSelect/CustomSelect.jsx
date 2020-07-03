@@ -39,6 +39,7 @@ const CustomSelect = (props) => {
   const [optionsState, setOptionsState] = useState(false);
   const height = (options?.length - 1) * 1.6 + "rem";
 
+
   //если не пришел массив с опциями, то не отображать select
   if (!options) return null;
 

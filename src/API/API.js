@@ -43,6 +43,7 @@ export const tablePageAPI = {
   },
 };
 
+
 export const cardsPageAPI = {
   getAllBasesNames: () => {
     return axios.get('/getBasesNames');
@@ -52,7 +53,13 @@ export const cardsPageAPI = {
   },
   getBase: (baseName) => {
     return axios.put('/queryAnotherBase', {baseName});
-  }
+  },
+  repeatTransfer: (word, baseName) => {
+    return axios.put('/repeatTransfer', {word, selected: baseName});
+  },
+  learnedTransfer: (word, baseName) => {
+    return axios.put('/learnedTransfer', {word, selected: baseName});
+  },
 };
 
 

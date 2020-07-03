@@ -1,0 +1,44 @@
+.particle-animation__container {
+  height: calc(100% - 10rem);
+}
+
+.particle-animation {
+  background: #5858FA;
+  width: 100%;
+  display: block;
+}
+
+.home-page__arrow {
+  position: relative;
+  display: block;
+  margin: 0 auto ;
+  padding: 1rem;
+  bottom: 9rem;
+  height: 4rem;
+  width: 4rem;
+  fill: #ffffff;
+  cursor: pointer;
+  transition: transform 500ms;
+}
+
+.home-page__arrow.up {
+  transform: rotate(0.5turn);
+}
+
+.home-page__introduction {
+  max-width: 70%;
+  margin: 0 auto;
+  //padding-bottom: 937px;
+  font-family: "Oswald Regular", sans-serif;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.introduction__letter {
+  opacity: 0;
+}
+
+.introduction__letter.display {
+  transition: opacity 500ms;
+  opacity: 1;
+}
