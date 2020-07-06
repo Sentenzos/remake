@@ -5,10 +5,12 @@ import {tablePageReducer} from "./reducers/tablePageReducer";
 import {reduxFormReducer} from "./reducers/reduxFormReducer";
 import {mainReducer} from "./reducers/mainReducer";
 import {cardsPageReducer} from "./reducers/cardsPageReducer";
+import {homePageReducer} from "./reducers/homePageReducer";
 
 
 const reducers = combineReducers({
   main: mainReducer,
+  homePage: homePageReducer,
   cardsPage: cardsPageReducer,
   tablePage: tablePageReducer,
   form: formReducer.plugin(reduxFormReducer)

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState, useMemo} from "react";
 import particleAnimation from "./js/particleAnimation";
 import {ReactComponent as Arrow} from "../../assets/images/arrowDown.svg";
 import './HomePage.scss';
@@ -8,10 +8,8 @@ const HomePage = (props) => {
   const [windowHeight, setWindowHeight] = useState(null);
   const [arrowDirection, toggleArrowDirection] = useState('down');
 
-  const originalTextArray = `Привет. На этом сайте ты можешь учить английские слова методом карточек. Это крайне эффективный способ увеличить свой словарный запас. Всего 30 минут в день, и за неделю ты будешь знать как минимум на 50 слов больше. В этом тебе поможет гибкий и простой функционал сайта. В базе уже находятся несколько тысяч английских слов с переводом, а так же есть возможность добавлять свои слова и перевод к ним. Все это доступно после простой регистрации.`.split(' ');
-
-  const [wordsArray, setWordsArray] = useState(originalTextArray);
-  const [wordsArrayForRender, setWordsArrayForRender] = useState([]);
+  const lettersArray = useMemo(() => [...props.introductionText], [props.introductionText]);
+  const [numberToShow, setNumberToShow] = useState(0);
 
   const canvasRef = useRef(null);
 
@@ -19,32 +17,37 @@ const HomePage = (props) => {
     setTimeout(() => window.scrollTo(0, 0), 500)
   }, []);
 
-  useEffect(() => {
-    const getWindowHeight = () => {
-      const windowHeight = Math.max(window.innerHeight,
-        window.innerWidth) + 'px';
-      setWindowHeight(windowHeight);
-    }
-    getWindowHeight();
-    window.addEventListener('resize', getWindowHeight);
+  useEffect(
+    function updateWindowHeight() {
+      const getWindowHeight = () => {
+        const windowHeight = Math.max(window.innerHeight,
+          window.innerWidth) + 'px';
+        setWindowHeight(windowHeight);
+      }
 
-    return () => {
-      window.removeEventListener('resize', getWindowHeight);
-    }
-  }, []);
+      getWindowHeight();
+      window.addEventListener('resize', getWindowHeight);
 
-  useEffect(() => {
-    const [startAnimation, stopAnimation] =
-      particleAnimation(canvasRef.current, 'encard.info');
-    startAnimation();
+      return () => {
+        window.removeEventListener('resize', getWindowHeight);
+      }
+    }, []);
 
-    return () => {
-      stopAnimation();
-    }
-  }, [])
+  useEffect(
+    function particleAnimationControl() {
+      const [startAnimation, stopAnimation] =
+        particleAnimation(canvasRef.current, 'encard.info');
+      startAnimation();
+
+      return () => {
+        stopAnimation();
+      }
+    }, [])
 
   const scrollDown = (e) => {
-    e.target.scrollIntoView(true);
+    let elemTopCoord = e.target.getBoundingClientRect().top;
+    window.scrollTo(0, elemTopCoord);
+    // e.target.scrollIntoView(true);
     toggleArrowDirection('up');
   }
 
@@ -56,17 +59,12 @@ const HomePage = (props) => {
   useEffect(
     function alternatingLetters() {
       if (arrowDirection === "down") return;
-      const wordsArrayIsEmpty = wordsArray[0] === undefined;
-      if (wordsArrayIsEmpty) return;
-
-      const nextWord = wordsArray[0];
-      const remainingWords = wordsArray.slice(1);
+      if (numberToShow === lettersArray.length) return;
 
       setTimeout(function addNewLetter() {
-        setWordsArray(remainingWords);
-        setWordsArrayForRender((wordsForRender) => [...wordsForRender, nextWord]);
-      }, 300)
-    }, [wordsArray, arrowDirection])
+        setNumberToShow(numberToShow => numberToShow + 1);
+      }, 0);
+    }, [lettersArray, numberToShow, arrowDirection])
 
 
   return (
@@ -79,16 +77,9 @@ const HomePage = (props) => {
       </div>
       <div className="home-page__introduction" style={{height: windowHeight}}>
         {
-          wordsArrayForRender.map((word, index) => {
-           const thereIsNextElem = wordsArrayForRender[index + 1] !== undefined;
-           const itIsLastElem = index === originalTextArray.length - 1;
-           const shouldDisplay = thereIsNextElem ? "display" : "";
-
-           const addLastElem = (elem) => {
-               setTimeout(() => elem?.classList.add("display"), 200);
-           }
-
-            return <span key={index} className={`introduction__letter ${shouldDisplay}`} ref={itIsLastElem ? addLastElem : null}> {word}</span>;
+          lettersArray.map((letter, letterIndex) => {
+            const shouldDisplay = letterIndex <= numberToShow ? "display" : "";
+            return <span key={letterIndex} className={`introduction__letter ${shouldDisplay}`}>{letter}</span>;
           })
         }
       </div>
