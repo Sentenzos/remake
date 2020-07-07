@@ -45,3 +45,15 @@ body {
 .server-error-enter-done {
   opacity: 1;
 }
+
+.prtcls {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.prtcls.cards-page__prtcls, .prtcls.tables-page__prtcls {
+  opacity: 0.6;
+}

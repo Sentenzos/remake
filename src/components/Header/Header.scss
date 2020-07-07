@@ -36,6 +36,7 @@
   font-family: "Kanit Regular", sans-serif;
   font-size: 0.9rem;
   transition: color 500ms, border 100ms;
+  z-index: 1000;
 }
 
 .header-menu__item:hover {

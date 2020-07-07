@@ -19,6 +19,7 @@
   fill: #ffffff;
   cursor: pointer;
   transition: transform 500ms;
+  z-index: 1000;
 }
 
 .home-page__arrow.up {
@@ -42,3 +43,47 @@
   transition: opacity 500ms;
   opacity: 1;
 }
+
+.presentation-images-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 1000ms, margin-top 1000ms;
+}
+
+.presentation-images-container.display {
+  visibility: visible;
+  opacity: 1;
+}
+
+.presentation-images-container.stretch {
+  margin-top: 0;
+}
+
+.presentation-image {
+  width: 50%;
+  border: 1px solid white;
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: width 1000ms, border-color 100ms, transform 100ms;
+  z-index: 1000;
+}
+
+.presentation-image:hover {
+  border-color: #7e08af;
+}
+
+.presentation-image:nth-child(1) {
+  margin-right: 0.5rem;
+}
+
+.presentation-image.stretch {
+  position: absolute;
+  width: 60%;
+  z-index: 1001;
+}
+
+

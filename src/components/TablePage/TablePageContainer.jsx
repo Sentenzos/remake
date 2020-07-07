@@ -30,6 +30,7 @@ import {
 
 import {resetAddWord} from "../../store/reducers/reduxFormReducer";
 import {changeSortingMethod} from "./js/sortList";
+import Particles from "react-particles-js";
 
 
 const TablePageContainer = (props) => {
@@ -41,7 +42,20 @@ const TablePageContainer = (props) => {
 
 
   return (
-    <TablePage {...props}/>
+    <>
+      <Particles className="prtcls tables-page__prtcls"
+                 params={{
+                   "particles": {
+                     "number": {
+                       "value": 50
+                     },
+                     "size": {
+                       "value": 3
+                     }
+                   },
+                 }} />
+      <TablePage {...props}/>
+    </>
   )
 };
 

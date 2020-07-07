@@ -6,7 +6,7 @@ import {CSSTransition} from "react-transition-group";
 import wordRandomize from "./js/wordRandomize";
 import {ReactComponent as Pulse} from "../../assets/images/pulse.svg";
 import {ReactComponent as LoadingSVG} from "../../assets/images/ring-loading.svg";
-
+import Particles from 'react-particles-js';
 
 
 function CardsPage(props) {
@@ -36,6 +36,18 @@ function CardsPage(props) {
 
   return (
     <div className="cards-page">
+      <Particles
+        className="prtcls cards-page__prtcls"
+        params={{
+          "particles": {
+            "number": {
+              "value": 50
+            },
+            "size": {
+              "value": 3
+            },
+          },
+        }} />
       <CSSTransition classNames="server-error"
                      in={props.serverError.state}
                      timeout={1000}
